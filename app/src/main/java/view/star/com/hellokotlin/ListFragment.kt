@@ -47,14 +47,15 @@ class ListFragment : Fragment() {
 
         override fun getView(position: Int, convertView: View?, container: ViewGroup): View {
             val data = getItem(position) as Book
-            val view: View = convertView ?: LayoutInflater.from(container.context).inflate(R.layout.view_book_list_item, container, false).apply {
+            return (convertView ?: LayoutInflater.from(container.context).inflate(R.layout.view_book_list_item, container, false).apply {
                 tag = ViewHolder(this)
+            }).apply {
+                (tag as ViewHolder).apply {
+                    name.text = data.name
+                    author.text = data.author
+                    this@apply.container.isSelected = selectedBooks.contains(data)
+                }
             }
-            (view.tag as ViewHolder).apply {
-                name.text = data.name
-                author.text = data.author
-            }
-            return view
         }
 
         override fun getItem(position: Int): Any {

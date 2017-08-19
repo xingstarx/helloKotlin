@@ -1,5 +1,6 @@
 package view.star.com.hellokotlin
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         textView.text = "Android开发艺术探索"
+        button.setOnClickListener {
+            startActivity(Intent(context, ListActivity::class.java))
+        }
     }
 
     companion object {

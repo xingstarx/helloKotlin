@@ -5,13 +5,16 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_list.*
 import view.star.com.hellokotlin.model.Book
 
 class ListFragment : Fragment() {
     var bookAdapter: BookAdapter? = null
+    var onClickListener: ((parent: AdapterView<*>, view: View, position: Int, id: Long) -> Unit)? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         return view
@@ -39,6 +42,10 @@ class ListFragment : Fragment() {
         bookAdapter = BookAdapter().apply {
             books = generateBooks(10)
             listView.adapter = this
+            listView.setOnItemClickListener { parent, view, position, id ->
+                Toast.makeText(context, "Hello 来自ListFragment", Toast.LENGTH_SHORT).show()
+                onClickListener?.invoke(parent, view, position, id)
+            }
         }
     }
 
@@ -53,7 +60,6 @@ class ListFragment : Fragment() {
                 (tag as ViewHolder).apply {
                     name.text = data.name
                     author.text = data.author
-                    this@apply.container.isSelected = selectedBooks.contains(data)
                 }
             }
         }
